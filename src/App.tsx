@@ -1,7 +1,16 @@
-import React from "react";
+import { Route, Routes } from "react-router-dom";
+
+import { Home } from "./pages/home";
+import { Puzzle } from "./pages/puzzle";
 
 function App() {
-	return <div className="text-3xl font-bold underline">App</div>;
+	return (
+		<Routes>
+			<Route index element={<Home />} />
+			<Route path="puzzle/:difficulty" element={<Puzzle />} />
+			<Route path="*" element={<Home />} />
+		</Routes>
+	);
 }
 
 export default App;
