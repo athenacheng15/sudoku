@@ -3,6 +3,7 @@
 @tailwind utilities;
 body {
   @apply bg-[#FFF2DC];
+  font-family: 'Aldrich', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
