@@ -1,7 +1,7 @@
 import { DifficultyBtn } from "../../components/difficulty-btn";
 export const Home = () => {
 	return (
-		<div className="flex flex-col items-center justify-center p-8">
+		<div className="flex flex-col items-center justify-center">
 			<p className="text-font-dark text-[92px]">SODOKU</p>
 			<div className="flex flex-col items-center justify-center space-y-4 mb-12">
 				<DifficultyBtn selected label="EASY" />
