@@ -1,5 +1,5 @@
 import { FaCrown } from "react-icons/fa";
-import { DataBlock } from "../../components/dataBlock";
+import { DataBlock } from "../../components/data-block";
 
 export const Completed = () => {
 	return (
