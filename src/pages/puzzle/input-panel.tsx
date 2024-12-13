@@ -6,7 +6,7 @@ export const InputPanel = () => {
 	return (
 		<div className="grid grid-cols-3 sm:grid-cols-9 gap-1">
 			{buttons.map((_, idx) => (
-				<NumberBtn n={idx + 1} />
+				<NumberBtn key={idx + 1} n={idx + 1} />
 			))}
 		</div>
 	);
