@@ -4,3 +4,9 @@ export enum LevelEnum {
 	HARD = "hard",
 	EXPERT = "expert",
 }
+
+export interface PuzzleGenResType {
+	puzzle: string;
+	solution: string;
+	difficulty: string;
+}

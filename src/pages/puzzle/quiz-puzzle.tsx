@@ -1,8 +1,15 @@
 import { Grid } from "../../components/grid";
 import { cn } from "../../utils/utils";
 
-export const QuizPuzzle = () => {
-	const puzzleGrid: string[] = Array(81).fill("3");
+import type { PuzzleGenResType } from "../../types";
+
+interface QuizPuzzleProps {
+	puzzle: PuzzleGenResType;
+}
+
+export const QuizPuzzle = ({ puzzle }: QuizPuzzleProps) => {
+	console.log(puzzle);
+	const puzzleGrid = puzzle.puzzle.split("");
 	return (
 		<div className="grid grid-cols-9">
 			{puzzleGrid.map((n, idx) => {

@@ -1,14 +1,26 @@
-import { Timer } from "../../components/timer";
-import { OperationBtn } from "../../components/operation-btn";
-
-import { QuizPuzzle } from "./quiz-puzzle";
-import { InputPanel } from "./input-panel";
+import { LevelEnum } from "../../types";
 
 import { HiOutlineVariable } from "react-icons/hi";
 import { LuEraser } from "react-icons/lu";
 import { TbReload } from "react-icons/tb";
+import { useParams } from "react-router-dom";
+
+import { Timer } from "../../components/timer";
+import { OperationBtn } from "../../components/operation-btn";
+import { Loader } from "../../components/loader";
+
+import { QuizPuzzle } from "./quiz-puzzle";
+import { InputPanel } from "./input-panel";
+
+import { useGetPuzzle } from "./hooks/useGetPuzzle";
 
 export const Sudoku = () => {
+	const { difficulty } = useParams();
+	const level = difficulty as LevelEnum;
+	const { puzzle } = useGetPuzzle(level);
+
+	if (!puzzle) return <Loader />;
+
 	return (
 		<div className="flex flex-col items-center justify-center">
 			<div className="mb-10">
@@ -16,7 +28,7 @@ export const Sudoku = () => {
 			</div>
 			<div className="mb-6">
 				<div className="relative">
-					<QuizPuzzle />
+					<QuizPuzzle puzzle={puzzle} />
 					<div className="absolute top-24 right-[-120px] flex flex-col space-y-1">
 						<div className="mb-8">
 							<OperationBtn isHighlight icon={TbReload} onClick={() => {}} />
