@@ -8,16 +8,28 @@ import { useParams } from "react-router-dom";
 import { Timer } from "@components/timer";
 import { OperationBtn } from "@components/operation-btn";
 import { Loader } from "@components/loader";
+import { useGetPuzzle } from "@hooks/useGetPuzzle";
 
 import { QuizPuzzle } from "./quiz-puzzle";
 import { InputPanel } from "./input-panel";
-import { useGetPuzzle } from "./hooks/useGetPuzzle";
+import { useEffect } from "react";
 export const Sudoku = () => {
 	const { difficulty } = useParams();
 	const level = difficulty as LevelType;
-	const { puzzle } = useGetPuzzle(level);
+	const { puzzle, error, getPuzzle } = useGetPuzzle();
+
+	useEffect(() => {
+		if (!level) return;
+		getPuzzle(level);
+	}, [getPuzzle, level]);
+
+	if (error) {
+		return <div>{error}</div>;
+	}
 
 	if (!puzzle) return <Loader />;
+
+	console.log(puzzle);
 
 	return (
 		<div className="flex flex-col items-center justify-center">
@@ -26,7 +38,7 @@ export const Sudoku = () => {
 			</div>
 			<div className="mb-6">
 				<div className="relative">
-					<QuizPuzzle puzzle={puzzle} />
+					<QuizPuzzle />
 					<div className="absolute top-24 right-[-120px] flex flex-col space-y-1">
 						<div className="mb-8">
 							<OperationBtn isHighlight icon={TbReload} onClick={() => {}} />
