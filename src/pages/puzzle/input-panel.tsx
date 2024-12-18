@@ -1,4 +1,4 @@
-import { NumberBtn } from "../../components/number-btn";
+import { NumberBtn } from "@components/number-btn";
 
 export const InputPanel = () => {
 	const buttons: string[] = Array(9).fill("-");

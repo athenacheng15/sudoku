@@ -1,18 +1,16 @@
-import { Grid } from "../../components/grid";
-import { cn } from "../../utils/utils";
+import { Grid } from "@components/grid";
+import { cn } from "@utils";
 
-import type { PuzzleGenResType } from "../../types";
+import { useGetPuzzle } from "@src/hooks/useGetPuzzle";
 
-interface QuizPuzzleProps {
-	puzzle: PuzzleGenResType;
-}
+export const QuizPuzzle = () => {
+	const { puzzle } = useGetPuzzle();
+	if (!puzzle) return null;
 
-export const QuizPuzzle = ({ puzzle }: QuizPuzzleProps) => {
-	console.log(puzzle);
-	const puzzleGrid = puzzle.puzzle.split("");
+	const puzzleArray = puzzle.puzzle.split("");
 	return (
 		<div className="grid grid-cols-9">
-			{puzzleGrid.map((n, idx) => {
+			{puzzleArray.map((n, idx) => {
 				const row = Math.floor(idx / 9) + 1;
 				const column = (idx + 1) % 9;
 				return (
