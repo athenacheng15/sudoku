@@ -1,11 +1,10 @@
-import type { PuzzleGenResType } from "../../../types";
-import type { LevelEnum } from "../../../types";
-
-import { getSudoku } from "sudoku-gen";
+import type { PuzzleGenResType } from "@types";
+import type { LevelEnum as LevelType } from "@types";
 
 import { useEffect, useState } from "react";
+import { getSudoku } from "sudoku-gen";
 
-export const useGetPuzzle = (difficulty: LevelEnum) => {
+export const useGetPuzzle = (difficulty: LevelType) => {
 	const [puzzle, setPuzzle] = useState<PuzzleGenResType | null>(null);
 	const getPuzzle = async () => {
 		try {

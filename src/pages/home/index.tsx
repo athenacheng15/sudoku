@@ -1,12 +1,14 @@
+import type { LevelEnum as LevelType } from "@types";
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { LevelEnum } from "../../types";
-import { DifficultyBtn } from "../../components/difficulty-btn";
+import { LevelEnum } from "@types";
+import { DifficultyBtn } from "@components/difficulty-btn";
 
 export const Home = () => {
 	const navigate = useNavigate();
-	const [currentLevel, setCurrentLevel] = useState<LevelEnum>(LevelEnum.EASY);
+	const [currentLevel, setCurrentLevel] = useState<LevelType>(LevelEnum.EASY);
 	const levels = Object.values(LevelEnum);
 	return (
 		<div className="flex flex-col items-center justify-center">

@@ -1,22 +1,20 @@
-import { LevelEnum } from "../../types";
+import type { LevelEnum as LevelType } from "@types";
 
 import { HiOutlineVariable } from "react-icons/hi";
 import { LuEraser } from "react-icons/lu";
 import { TbReload } from "react-icons/tb";
 import { useParams } from "react-router-dom";
 
-import { Timer } from "../../components/timer";
-import { OperationBtn } from "../../components/operation-btn";
-import { Loader } from "../../components/loader";
+import { Timer } from "@components/timer";
+import { OperationBtn } from "@components/operation-btn";
+import { Loader } from "@components/loader";
 
 import { QuizPuzzle } from "./quiz-puzzle";
 import { InputPanel } from "./input-panel";
-
 import { useGetPuzzle } from "./hooks/useGetPuzzle";
-
 export const Sudoku = () => {
 	const { difficulty } = useParams();
-	const level = difficulty as LevelEnum;
+	const level = difficulty as LevelType;
 	const { puzzle } = useGetPuzzle(level);
 
 	if (!puzzle) return <Loader />;

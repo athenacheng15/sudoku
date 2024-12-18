@@ -1,5 +1,5 @@
-import { Grid } from "../../components/grid";
-import { cn } from "../../utils/utils";
+import { Grid } from "@components/grid";
+import { cn } from "@utils";
 
 import type { PuzzleGenResType } from "../../types";
 
