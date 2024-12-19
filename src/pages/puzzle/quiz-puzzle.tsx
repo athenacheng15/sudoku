@@ -4,6 +4,7 @@ import { cn } from "@utils";
 import { useGetPuzzle } from "@src/hooks/useGetPuzzle";
 
 export const QuizPuzzle = () => {
+	// TODO: add Id to pervent double fetch
 	const { puzzle } = useGetPuzzle();
 	if (!puzzle) return null;
 

@@ -1,8 +1,9 @@
-interface TimerProps {
-	min: number;
-	sec: number;
-}
+import { useTimer } from "@src/hooks/useTimer";
 
-export const Timer = ({ min, sec }: TimerProps) => {
-	return <div className="text-font text-5xl">{`${min}:${sec}`}</div>;
+export const Timer = () => {
+	const { hours, minutes, seconds } = useTimer();
+	return (
+		<div className="text-font text-5xl">{`${hours === "00" ? "" : `${hours}:`}
+		${minutes}:${seconds}`}</div>
+	);
 };
