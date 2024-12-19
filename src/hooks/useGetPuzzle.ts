@@ -1,5 +1,8 @@
-import { PuzzleNumberObjType } from "@types";
-import type { LevelEnum as LevelType } from "@types";
+import type {
+	LevelEnum as LevelType,
+	PuzzleNumberObjType,
+	NumStatusEnum as NumStatusType,
+} from "@types";
 
 import { create } from "zustand";
 import { getSudoku } from "sudoku-gen";
@@ -10,9 +13,13 @@ type useGetPuzzleStore = {
 	difficulty: string | null;
 	error: string | null;
 	getPuzzle: (level: LevelType) => void;
+	setNumberObj: (
+		idx: number,
+		update: { num?: string; status?: NumStatusType }
+	) => void;
 };
 
-export const useGetPuzzle = create<useGetPuzzleStore>((set) => ({
+export const useGetPuzzle = create<useGetPuzzleStore>((set, get) => ({
 	numberObj: null,
 	error: null,
 	solution: null,
@@ -41,5 +48,20 @@ export const useGetPuzzle = create<useGetPuzzleStore>((set) => ({
 				error: "Failed to fetch puzzle",
 			});
 		}
+	},
+	setNumberObj: (idx: number, { num, status }) => {
+		const current = get().numberObj;
+		if (!current || idx < 0 || idx >= current.length) return;
+
+		const updatedPuzzle = current;
+		const currentItem = updatedPuzzle[idx];
+
+		if (num) {
+			updatedPuzzle[idx] = { ...currentItem, num };
+		}
+		if (status) {
+			updatedPuzzle[idx] = { ...currentItem, status };
+		}
+		set({ numberObj: updatedPuzzle });
 	},
 }));

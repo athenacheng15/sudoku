@@ -6,6 +6,7 @@ import { useGetPuzzle } from "@src/hooks/useGetPuzzle";
 export const QuizPuzzle = () => {
 	// TODO: add Id to pervent double fetch
 	const { numberObj } = useGetPuzzle();
+
 	if (!numberObj) return null;
 
 	return (
@@ -22,7 +23,7 @@ export const QuizPuzzle = () => {
 						)}
 					>
 						<div className="flex items-center justify-center w-11 h-11 text-xl">
-							<Grid n={num} isDefault={isDefault} />
+							<Grid idx={idx} n={num} isDefault={isDefault} />
 						</div>
 					</div>
 				);
