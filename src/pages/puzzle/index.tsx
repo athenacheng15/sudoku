@@ -16,7 +16,7 @@ import { useEffect } from "react";
 export const Sudoku = () => {
 	const { difficulty } = useParams();
 	const level = difficulty as LevelType;
-	const { quizObj, error, getPuzzle } = useGetPuzzle();
+	const { numberObj, error, getPuzzle } = useGetPuzzle();
 
 	useEffect(() => {
 		if (!level) return;
@@ -27,9 +27,9 @@ export const Sudoku = () => {
 		return <div>{error}</div>;
 	}
 
-	if (!quizObj) return <Loader />;
+	if (!numberObj) return <Loader />;
 
-	console.log(quizObj);
+	console.log(numberObj);
 
 	return (
 		<div className="flex flex-col items-center justify-center">
