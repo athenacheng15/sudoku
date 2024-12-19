@@ -5,14 +5,12 @@ import { useGetPuzzle } from "@src/hooks/useGetPuzzle";
 
 export const QuizPuzzle = () => {
 	// TODO: add Id to pervent double fetch
-	const { quizObj } = useGetPuzzle();
-	if (!quizObj) return null;
-
-	const { puzzle } = quizObj;
+	const { numberObj } = useGetPuzzle();
+	if (!numberObj) return null;
 
 	return (
 		<div className="grid grid-cols-9">
-			{puzzle.map(({ num, isDefault }, idx) => {
+			{numberObj.map(({ num, isDefault }, idx) => {
 				const row = Math.floor(idx / 9) + 1;
 				const column = (idx + 1) % 9;
 				return (
