@@ -34,7 +34,8 @@ export const Sudoku = () => {
 	return (
 		<div className="flex flex-col items-center justify-center">
 			<div className="mb-10">
-				<Timer min={16} sec={55} />
+				{/* TODO: timer hidden choice */}
+				<Timer />
 			</div>
 			<div className="mb-6">
 				<div className="relative">
