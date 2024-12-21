@@ -11,6 +11,11 @@ export const QuizPuzzle = () => {
 
 	if (!numberObj) return null;
 
+	const handleOnClickGrid = (idx: number) => {
+		setCurrentGrid(idx);
+		setHighlight(idx);
+	};
+
 	return (
 		<div className="grid grid-cols-9">
 			{numberObj.map(({ num, isDefault, status }, idx) => {
@@ -25,13 +30,13 @@ export const QuizPuzzle = () => {
 						)}
 					>
 						<div className="flex items-center justify-center w-11 h-11 text-xl">
+							{/* TODO : click outside */}
 							<Grid
 								n={num}
 								isDefault={isDefault}
 								isSelected={currentGrid === idx}
 								onClick={() => {
-									setCurrentGrid(idx);
-									setHighlight(idx);
+									handleOnClickGrid(idx);
 								}}
 								status={status}
 							/>

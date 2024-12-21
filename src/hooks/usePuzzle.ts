@@ -1,4 +1,4 @@
-import type {
+import {
 	LevelEnum as LevelType,
 	PuzzleNumberObjType,
 	NumStatusEnum as NumStatusType,
@@ -21,6 +21,7 @@ type usePuzzleStore = {
 	deleteNumber: (idx: number) => void;
 	deleteAllNumber: (idx: number) => void;
 	setHighlight: (idx: number) => void;
+	setError: (idxes: number[], isError: boolean) => void;
 };
 
 export const usePuzzle = create<usePuzzleStore>((set, get) => ({
@@ -108,5 +109,19 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 			);
 			set({ numberObj: updatedPuzzle });
 		}
+	},
+	setError: (idxes: number[], isError: boolean) => {
+		const current = get().numberObj;
+		if (!current) return;
+
+		const updatedPuzzle = current.map((cell, idx) => ({
+			...cell,
+			status: idxes.includes(idx)
+				? isError
+					? NumStatusEnum.ERROR
+					: null
+				: cell.status,
+		}));
+		set({ numberObj: updatedPuzzle });
 	},
 }));

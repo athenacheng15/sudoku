@@ -26,7 +26,8 @@ export function Grid({
 				"w-10 h-10 rounded bg-theme-light text-xl text-[#8B7757] transition",
 				isDefault && "text-font-dark",
 				isSelected && "bg-[#DFC6A2]",
-				status === NumStatusEnum.HIGHLIGHT && "text-[#D79326]"
+				status === NumStatusEnum.HIGHLIGHT && "text-[#D79326]",
+				status === NumStatusEnum.ERROR && "text-[#DB372F]"
 			)}`}
 			onClick={onClick}
 		>
