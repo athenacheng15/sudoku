@@ -18,6 +18,7 @@ type usePuzzleStore = {
 		update: { num?: string; status?: NumStatusType }
 	) => void;
 	deleteNumber: (idx: number) => void;
+	deleteAllNumber: (idx: number) => void;
 };
 
 export const usePuzzle = create<usePuzzleStore>((set, get) => ({
@@ -76,5 +77,19 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 
 		updatedPuzzle[idx] = { ...targetGrid, num: "-" };
 		set({ numberObj: updatedPuzzle });
+	},
+	deleteAllNumber: (idx: number) => {
+		const current = get().numberObj;
+		if (!current || idx < 0 || idx >= current.length) return;
+
+		const targetNum = current[idx].num;
+		const isTargetDefault = current[idx].isDefault;
+
+		if (!isTargetDefault) {
+			const updatedPuzzle = current.map((item) =>
+				item.num === targetNum && !item.isDefault ? { ...item, num: "-" } : item
+			);
+			set({ numberObj: updatedPuzzle });
+		}
 	},
 }));

@@ -7,7 +7,7 @@ import { usePuzzle } from "@hooks/usePuzzle";
 import { useCurrentGrid } from "@hooks/useCurrentGrid";
 
 export const OperationBtns = () => {
-	const { deleteNumber } = usePuzzle();
+	const { deleteNumber, deleteAllNumber } = usePuzzle();
 	const { currentGrid } = useCurrentGrid();
 
 	const handleDeleteNumber = () => {
@@ -15,13 +15,18 @@ export const OperationBtns = () => {
 		deleteNumber(currentGrid);
 	};
 
+    const handleDeleteAllNumber = () => {
+			if (!currentGrid) return;
+			deleteAllNumber(currentGrid);
+		};
+
 	return (
 		<>
 			<div className="mb-8">
 				<OperationBtn isHighlight icon={TbReload} onClick={() => {}} />
 			</div>
 			{/* TODO : tooltips */}
-			<OperationBtn icon={HiOutlineVariable} onClick={() => {}} />
+			<OperationBtn icon={HiOutlineVariable} onClick={handleDeleteAllNumber} />
 			<OperationBtn icon={LuEraser} onClick={handleDeleteNumber} />
 		</>
 	);
