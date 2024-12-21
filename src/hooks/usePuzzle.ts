@@ -13,10 +13,11 @@ type usePuzzleStore = {
 	difficulty: string | null;
 	error: string | null;
 	getPuzzle: (level: LevelType) => void;
-	setNumberObj: (
+	setNumber: (
 		idx: number,
 		update: { num?: string; status?: NumStatusType }
 	) => void;
+	deleteNumber: (idx: number) => void;
 };
 
 export const usePuzzle = create<usePuzzleStore>((set, get) => ({
@@ -49,19 +50,31 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 			});
 		}
 	},
-	setNumberObj: (idx: number, { num, status }) => {
+	setNumber: (idx: number, { num, status }) => {
 		const current = get().numberObj;
 		if (!current || idx < 0 || idx >= current.length) return;
 
 		const updatedPuzzle = current;
-		const currentItem = updatedPuzzle[idx];
+		const targetGrid = updatedPuzzle[idx];
 
 		if (num) {
-			updatedPuzzle[idx] = { ...currentItem, num };
+			updatedPuzzle[idx] = { ...targetGrid, num };
 		}
 		if (status) {
-			updatedPuzzle[idx] = { ...currentItem, status };
+			updatedPuzzle[idx] = { ...targetGrid, status };
 		}
+		set({ numberObj: updatedPuzzle });
+	},
+	deleteNumber: (idx: number) => {
+		const current = get().numberObj;
+		if (!current || idx < 0 || idx >= current.length) return;
+
+		const updatedPuzzle = current;
+		const targetGrid = updatedPuzzle[idx];
+
+		if (targetGrid.isDefault) return;
+
+		updatedPuzzle[idx] = { ...targetGrid, num: "-" };
 		set({ numberObj: updatedPuzzle });
 	},
 }));

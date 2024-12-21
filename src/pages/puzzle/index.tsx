@@ -1,18 +1,17 @@
 import type { LevelEnum as LevelType } from "@types";
 
-import { HiOutlineVariable } from "react-icons/hi";
-import { LuEraser } from "react-icons/lu";
-import { TbReload } from "react-icons/tb";
+
 import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 import { Timer } from "@components/timer";
-import { OperationBtn } from "@components/operation-btn";
 import { Loader } from "@components/loader";
 import { usePuzzle } from "@src/hooks/usePuzzle";
 
 import { QuizPuzzle } from "./quiz-puzzle";
 import { InputPanel } from "./input-panel";
-import { useEffect } from "react";
+import { OperationBtns } from "./operation-btns";
+
 export const Sudoku = () => {
 	const { difficulty } = useParams();
 	const level = difficulty as LevelType;
@@ -41,11 +40,7 @@ export const Sudoku = () => {
 				<div className="relative">
 					<QuizPuzzle />
 					<div className="absolute top-24 right-[-120px] flex flex-col space-y-1">
-						<div className="mb-8">
-							<OperationBtn isHighlight icon={TbReload} onClick={() => {}} />
-						</div>
-						<OperationBtn icon={HiOutlineVariable} onClick={() => {}} />
-						<OperationBtn icon={LuEraser} onClick={() => {}} />
+						<OperationBtns />
 					</div>
 				</div>
 			</div>
