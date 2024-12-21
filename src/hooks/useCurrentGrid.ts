@@ -1,11 +1,11 @@
 import { create } from "zustand";
 
-type useGridStore = {
+type useCurrentGridStore = {
 	currentGrid: number | null;
 	setCurrentGrid: (id: number | null) => void;
 };
 
-export const useGrid = create<useGridStore>((set) => ({
+export const useCurrentGrid = create<useCurrentGridStore>((set) => ({
 	currentGrid: null,
 	setCurrentGrid: (id: number | null) => set({ currentGrid: id }),
 }));

@@ -7,19 +7,21 @@ import type {
 import { create } from "zustand";
 import { getSudoku } from "sudoku-gen";
 
-type useGetPuzzleStore = {
+type usePuzzleStore = {
 	numberObj: PuzzleNumberObjType[] | null;
 	solution: string | null;
 	difficulty: string | null;
 	error: string | null;
 	getPuzzle: (level: LevelType) => void;
-	setNumberObj: (
+	setNumber: (
 		idx: number,
 		update: { num?: string; status?: NumStatusType }
 	) => void;
+	deleteNumber: (idx: number) => void;
+	deleteAllNumber: (idx: number) => void;
 };
 
-export const useGetPuzzle = create<useGetPuzzleStore>((set, get) => ({
+export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 	numberObj: null,
 	error: null,
 	solution: null,
@@ -49,19 +51,45 @@ export const useGetPuzzle = create<useGetPuzzleStore>((set, get) => ({
 			});
 		}
 	},
-	setNumberObj: (idx: number, { num, status }) => {
+	setNumber: (idx: number, { num, status }) => {
 		const current = get().numberObj;
 		if (!current || idx < 0 || idx >= current.length) return;
 
 		const updatedPuzzle = current;
-		const currentItem = updatedPuzzle[idx];
+		const targetGrid = updatedPuzzle[idx];
 
 		if (num) {
-			updatedPuzzle[idx] = { ...currentItem, num };
+			updatedPuzzle[idx] = { ...targetGrid, num };
 		}
 		if (status) {
-			updatedPuzzle[idx] = { ...currentItem, status };
+			updatedPuzzle[idx] = { ...targetGrid, status };
 		}
 		set({ numberObj: updatedPuzzle });
+	},
+	deleteNumber: (idx: number) => {
+		const current = get().numberObj;
+		if (!current || idx < 0 || idx >= current.length) return;
+
+		const updatedPuzzle = current;
+		const targetGrid = updatedPuzzle[idx];
+
+		if (targetGrid.isDefault) return;
+
+		updatedPuzzle[idx] = { ...targetGrid, num: "-" };
+		set({ numberObj: updatedPuzzle });
+	},
+	deleteAllNumber: (idx: number) => {
+		const current = get().numberObj;
+		if (!current || idx < 0 || idx >= current.length) return;
+
+		const targetNum = current[idx].num;
+		const isTargetDefault = current[idx].isDefault;
+
+		if (!isTargetDefault) {
+			const updatedPuzzle = current.map((item) =>
+				item.num === targetNum && !item.isDefault ? { ...item, num: "-" } : item
+			);
+			set({ numberObj: updatedPuzzle });
+		}
 	},
 }));

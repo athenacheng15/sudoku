@@ -1,15 +1,15 @@
 import { NumberBtn } from "@components/number-btn";
-import { useGetPuzzle } from "@hooks/useGetPuzzle";
-import { useGrid } from "@hooks/useGrid";
+import { usePuzzle } from "@src/hooks/usePuzzle";
+import { useCurrentGrid } from "@src/hooks/useCurrentGrid";
 
 export const InputPanel = () => {
 	const buttons: string[] = Array(9).fill("-");
-	const { setNumberObj } = useGetPuzzle();
-	const { currentGrid } = useGrid();
+	const { setNumber } = usePuzzle();
+	const { currentGrid } = useCurrentGrid();
 
 	const handleOnClick = (num: number) => {
 		if (!currentGrid) return;
-		setNumberObj(currentGrid, { num: num.toString() });
+		setNumber(currentGrid, { num: num.toString() });
 	};
 
 	return (
