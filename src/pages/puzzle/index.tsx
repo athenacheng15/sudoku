@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { Timer } from "@components/timer";
 import { OperationBtn } from "@components/operation-btn";
 import { Loader } from "@components/loader";
-import { useGetPuzzle } from "@hooks/useGetPuzzle";
+import { usePuzzle } from "@src/hooks/usePuzzle";
 
 import { QuizPuzzle } from "./quiz-puzzle";
 import { InputPanel } from "./input-panel";
@@ -16,7 +16,7 @@ import { useEffect } from "react";
 export const Sudoku = () => {
 	const { difficulty } = useParams();
 	const level = difficulty as LevelType;
-	const { numberObj, error, getPuzzle } = useGetPuzzle();
+	const { numberObj, error, getPuzzle } = usePuzzle();
 
 	useEffect(() => {
 		if (!level) return;

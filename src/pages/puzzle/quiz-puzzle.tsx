@@ -1,11 +1,11 @@
 import { Grid } from "@components/grid";
 import { cn } from "@utils";
 
-import { useGetPuzzle } from "@src/hooks/useGetPuzzle";
+import { usePuzzle } from "@src/hooks/usePuzzle";
 
 export const QuizPuzzle = () => {
 	// TODO: add Id to pervent double fetch
-	const { numberObj } = useGetPuzzle();
+	const { numberObj } = usePuzzle();
 
 	if (!numberObj) return null;
 

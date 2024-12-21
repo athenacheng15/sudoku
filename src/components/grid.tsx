@@ -1,7 +1,7 @@
 import type { NumStatusEnum as NumStatusType } from "@src/types";
 
 import { cn } from "@src/utils";
-import { useGrid } from "@src/hooks/useGrid";
+import { useCurrentGrid } from "@src/hooks/useCurrentGrid";
 
 interface GridProps {
 	idx: number;
@@ -11,7 +11,7 @@ interface GridProps {
 }
 
 export function Grid({ idx, n = "-", isDefault }: GridProps) {
-	const { currentGrid, setCurrentGrid } = useGrid();
+	const { currentGrid, setCurrentGrid } = useCurrentGrid();
 	const isSelected = currentGrid === idx;
 
 	return (

@@ -7,7 +7,7 @@ import type {
 import { create } from "zustand";
 import { getSudoku } from "sudoku-gen";
 
-type useGetPuzzleStore = {
+type usePuzzleStore = {
 	numberObj: PuzzleNumberObjType[] | null;
 	solution: string | null;
 	difficulty: string | null;
@@ -19,7 +19,7 @@ type useGetPuzzleStore = {
 	) => void;
 };
 
-export const useGetPuzzle = create<useGetPuzzleStore>((set, get) => ({
+export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 	numberObj: null,
 	error: null,
 	solution: null,
