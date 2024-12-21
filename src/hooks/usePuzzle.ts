@@ -6,6 +6,7 @@ import type {
 
 import { create } from "zustand";
 import { getSudoku } from "sudoku-gen";
+import { NumStatusEnum } from "@types";
 
 type usePuzzleStore = {
 	numberObj: PuzzleNumberObjType[] | null;
@@ -19,6 +20,7 @@ type usePuzzleStore = {
 	) => void;
 	deleteNumber: (idx: number) => void;
 	deleteAllNumber: (idx: number) => void;
+	setHighlight: (idx: number) => void;
 };
 
 export const usePuzzle = create<usePuzzleStore>((set, get) => ({
@@ -88,6 +90,21 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 		if (!isTargetDefault) {
 			const updatedPuzzle = current.map((item) =>
 				item.num === targetNum && !item.isDefault ? { ...item, num: "-" } : item
+			);
+			set({ numberObj: updatedPuzzle });
+		}
+	},
+	setHighlight: (idx: number) => {
+		const current = get().numberObj;
+		if (!current || idx < 0 || idx >= current.length) return;
+
+		const targetNum = current[idx].num;
+
+		if (targetNum !== "-") {
+			const updatedPuzzle = current.map((item) =>
+				item.num === targetNum
+					? { ...item, status: NumStatusEnum.HIGHLIGHT }
+					: { ...item, status: null }
 			);
 			set({ numberObj: updatedPuzzle });
 		}
