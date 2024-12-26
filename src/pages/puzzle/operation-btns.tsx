@@ -57,7 +57,9 @@ export const OperationBtns = () => {
 			{/* TODO : tooltips */}
 			<OperationBtn icon={HiOutlineVariable} onClick={handleDeleteAllNumber} />
 			<OperationBtn icon={LuEraser} onClick={handleDeleteNumber} />
-			<OperationBtn icon={MdOutlineLightbulb} onClick={handleFill} />
+
+			{/* WARNING : only for dev use */}
+			{/* <OperationBtn icon={MdOutlineLightbulb} onClick={handleFill} /> */}
 		</>
 	);
 };

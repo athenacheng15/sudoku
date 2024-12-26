@@ -28,6 +28,7 @@ type usePuzzleStore = {
 	setError: (idxes: number[], isError: boolean) => void;
 	checkError: () => void;
 	checkCompleted: () => void;
+	setToDefault: () => void;
 	setFinished: () => void;
 };
 
@@ -154,8 +155,16 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 		const isComplete = allFilled && userAnswer === get().solution;
 		set({ isComplete });
 	},
+	setToDefault: () =>
+		set({
+			numberObj: null,
+			error: null,
+			solution: null,
+			difficulty: null,
+			isComplete: false,
+		}),
 	setFinished: () => {
-		//warning : only for dev use
+		//WARNING : only for dev use
 		const current = get().numberObj;
 		if (!current) return;
 		const solution = get().solution!.split("");

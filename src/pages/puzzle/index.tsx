@@ -6,7 +6,9 @@ import { useEffect } from "react";
 
 import { Timer } from "@components/timer";
 import { Loader } from "@components/loader";
-import { usePuzzle } from "@src/hooks/usePuzzle";
+import { usePuzzle } from "@hooks/usePuzzle";
+import { useTimer } from "@hooks/useTimer";
+import { formatTime } from "@utils";
 
 import { QuizPuzzle } from "./quiz-puzzle";
 import { InputPanel } from "./input-panel";
@@ -15,13 +17,22 @@ import { OperationBtns } from "./operation-btns";
 export const Sudoku = () => {
 	const { difficulty } = useParams();
 	const navigate = useNavigate();
-	const level = difficulty as LevelType;
+
 	const { numberObj, error, isComplete, getPuzzle } = usePuzzle();
+	const { hours, minutes, seconds } = useTimer();
 
 	useEffect(() => {
-		if (!level) return;
-		getPuzzle(level);
-	}, [getPuzzle, level]);
+		const level = difficulty as LevelType;
+		level && getPuzzle(level);
+	}, [difficulty, getPuzzle]);
+
+	useEffect(() => {
+		if (isComplete) {
+			navigate("/completed", {
+				state: { difficulty, time: formatTime(hours, minutes, seconds) },
+			});
+		}
+	}, [difficulty, hours, isComplete, minutes, navigate, seconds]);
 
 	if (error) {
 		return <div>{error}</div>;
@@ -29,15 +40,11 @@ export const Sudoku = () => {
 
 	if (!numberObj) return <Loader />;
 
-	if (isComplete) {
-		navigate("/completed");
-	}
-
 	return (
 		<div className="flex flex-col items-center justify-center">
 			<div className="mb-10">
 				{/* TODO: timer hidden choice */}
-				<Timer />
+				<Timer hours={hours} minutes={minutes} seconds={seconds} />
 			</div>
 			<div className="mb-6">
 				<div className="relative">
