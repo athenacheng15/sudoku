@@ -1,7 +1,7 @@
 import type { LevelEnum as LevelType } from "@types";
 
 
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 
 import { Timer } from "@components/timer";
@@ -14,8 +14,9 @@ import { OperationBtns } from "./operation-btns";
 
 export const Sudoku = () => {
 	const { difficulty } = useParams();
+	const navigate = useNavigate();
 	const level = difficulty as LevelType;
-	const { numberObj, error, getPuzzle } = usePuzzle();
+	const { numberObj, error, isComplete, getPuzzle } = usePuzzle();
 
 	useEffect(() => {
 		if (!level) return;
@@ -27,6 +28,11 @@ export const Sudoku = () => {
 	}
 
 	if (!numberObj) return <Loader />;
+
+	if (isComplete) {
+		navigate("/completed");
+	}
+
 	return (
 		<div className="flex flex-col items-center justify-center">
 			<div className="mb-10">

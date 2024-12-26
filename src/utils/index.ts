@@ -58,3 +58,13 @@ export const checkDuplicate = (
 
 	return { duplicates, nonDuplicates };
 };
+
+export const checkFinished = (
+	numberObj: PuzzleNumberObjType[],
+	solution: string
+): { isCorrect: boolean } => {
+	const allFilled = numberObj.every((item) => item.num !== "-");
+	const userAnswer = numberObj.map((item) => item.num).join("");
+	const isCorrect = allFilled && userAnswer === solution;
+	return { isCorrect };
+};
