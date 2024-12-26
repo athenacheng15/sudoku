@@ -6,8 +6,10 @@ import { OperationBtn } from "@components/operation-btn";
 import { usePuzzle } from "@hooks/usePuzzle";
 import { useCurrentGrid } from "@hooks/useCurrentGrid";
 import { useCheckError } from "@hooks/useCheckError";
+import { useNavigate } from "react-router-dom";
 
 export const OperationBtns = () => {
+	const navigate = useNavigate();
 	const { deleteNumber, deleteAllNumber } = usePuzzle();
 	const { checkError } = useCheckError();
 	const { currentGrid } = useCurrentGrid();
@@ -27,7 +29,11 @@ export const OperationBtns = () => {
 	return (
 		<>
 			<div className="mb-8">
-				<OperationBtn isHighlight icon={TbReload} onClick={() => {}} />
+				<OperationBtn
+					isHighlight
+					icon={TbReload}
+					onClick={() => navigate("/")}
+				/>
 			</div>
 			{/* TODO : tooltips */}
 			<OperationBtn icon={HiOutlineVariable} onClick={handleDeleteAllNumber} />
