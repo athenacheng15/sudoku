@@ -8,7 +8,7 @@ import { create } from "zustand";
 import { getSudoku } from "sudoku-gen";
 
 import { NumStatusEnum } from "@types";
-import { addIndexToSet } from "@utils";
+import { checkDuplicate } from "@utils";
 
 type usePuzzleStore = {
 	numberObj: PuzzleNumberObjType[] | null;
@@ -105,6 +105,7 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 		const targetNum = current[idx].num;
 
 		if (targetNum !== "-") {
+			// TODO fix error status
 			const updatedPuzzle = current.map((item) =>
 				item.num === targetNum
 					? { ...item, status: NumStatusEnum.HIGHLIGHT }
@@ -131,57 +132,11 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 		const current = get().numberObj;
 		if (!current) return;
 
-		const rowSets = Array.from(
-			{ length: 9 },
-			() => new Map<string, number[]>()
-		);
-		const colSets = Array.from(
-			{ length: 9 },
-			() => new Map<string, number[]>()
-		);
-		const boxSets = Array.from(
-			{ length: 9 },
-			() => new Map<string, number[]>()
-		);
-		let duplicates = new Set<number>();
-
-		current.forEach((cell, idx) => {
-			const num = cell.num;
-			const rowNum = Math.floor(idx / 9);
-			const colNum = idx % 9;
-			const boxIndex = Math.floor(rowNum / 3) * 3 + Math.floor(colNum / 3);
-
-			if (num !== "-") {
-				if (rowSets[rowNum].has(num)) {
-					rowSets[rowNum].get(num)?.forEach((dupIdx) => duplicates.add(dupIdx));
-					duplicates.add(idx);
-				}
-				addIndexToSet(rowSets[rowNum], num, idx);
-
-				if (colSets[colNum].has(num)) {
-					colSets[colNum].get(num)?.forEach((dupIdx) => duplicates.add(dupIdx));
-					duplicates.add(idx);
-				}
-				addIndexToSet(colSets[colNum], num, idx);
-
-				if (boxSets[boxIndex].has(num)) {
-					boxSets[boxIndex]
-						.get(num)
-						?.forEach((dupIdx) => duplicates.add(dupIdx));
-					duplicates.add(idx);
-				}
-				addIndexToSet(boxSets[boxIndex], num, idx);
-			}
-		});
+		const { duplicates, nonDuplicates } = checkDuplicate(current);
 
 		if (duplicates.size > 0) {
 			get().setError(Array.from(duplicates), true);
 		}
-
-		// check if not duplicate anymore
-		const nonDuplicates = current
-			.map((_, idx) => idx)
-			.filter((idx) => !duplicates.has(idx));
 
 		get().setError(nonDuplicates, false);
 	},
