@@ -6,7 +6,9 @@ import {
 
 import { create } from "zustand";
 import { getSudoku } from "sudoku-gen";
+
 import { NumStatusEnum } from "@types";
+import { checkDuplicate } from "@utils";
 
 type usePuzzleStore = {
 	numberObj: PuzzleNumberObjType[] | null;
@@ -22,6 +24,7 @@ type usePuzzleStore = {
 	deleteAllNumber: (idx: number) => void;
 	setHighlight: (idx: number) => void;
 	setError: (idxes: number[], isError: boolean) => void;
+	checkError: () => void;
 };
 
 export const usePuzzle = create<usePuzzleStore>((set, get) => ({
@@ -68,6 +71,7 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 			updatedPuzzle[idx] = { ...targetGrid, status };
 		}
 		set({ numberObj: updatedPuzzle });
+		get().checkError();
 	},
 	deleteNumber: (idx: number) => {
 		const current = get().numberObj;
@@ -80,20 +84,19 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 
 		updatedPuzzle[idx] = { ...targetGrid, num: "-" };
 		set({ numberObj: updatedPuzzle });
+		get().checkError();
 	},
 	deleteAllNumber: (idx: number) => {
 		const current = get().numberObj;
 		if (!current || idx < 0 || idx >= current.length) return;
 
 		const targetNum = current[idx].num;
-		const isTargetDefault = current[idx].isDefault;
 
-		if (!isTargetDefault) {
-			const updatedPuzzle = current.map((item) =>
-				item.num === targetNum && !item.isDefault ? { ...item, num: "-" } : item
-			);
-			set({ numberObj: updatedPuzzle });
-		}
+		const updatedPuzzle = current.map((item) =>
+			item.num === targetNum && !item.isDefault ? { ...item, num: "-" } : item
+		);
+		set({ numberObj: updatedPuzzle });
+		get().checkError();
 	},
 	setHighlight: (idx: number) => {
 		const current = get().numberObj;
@@ -102,6 +105,7 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 		const targetNum = current[idx].num;
 
 		if (targetNum !== "-") {
+			// TODO fix error status
 			const updatedPuzzle = current.map((item) =>
 				item.num === targetNum
 					? { ...item, status: NumStatusEnum.HIGHLIGHT }
@@ -123,5 +127,17 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 				: cell.status,
 		}));
 		set({ numberObj: updatedPuzzle });
+	},
+	checkError: () => {
+		const current = get().numberObj;
+		if (!current) return;
+
+		const { duplicates, nonDuplicates } = checkDuplicate(current);
+
+		if (duplicates.size > 0) {
+			get().setError(Array.from(duplicates), true);
+		}
+
+		get().setError(nonDuplicates, false);
 	},
 }));
