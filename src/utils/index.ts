@@ -58,3 +58,8 @@ export const checkDuplicate = (
 
 	return { duplicates, nonDuplicates };
 };
+
+export const formatTime = (hours: string, minutes: string, seconds: string) => {
+	return `${hours === "00" ? "" : `${hours}:`}${minutes}:${seconds}`;
+};
+

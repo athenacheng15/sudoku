@@ -1,9 +1,14 @@
-import { useTimer } from "@src/hooks/useTimer";
+import { formatTime } from "@utils";
+interface TimerProps {
+	hours: string;
+	minutes: string;
+	seconds: string;
+}
 
-export const Timer = () => {
-	const { hours, minutes, seconds } = useTimer();
+export const Timer = ({ hours, minutes, seconds }: TimerProps) => {
 	return (
-		<div className="text-font text-5xl">{`${hours === "00" ? "" : `${hours}:`}
-		${minutes}:${seconds}`}</div>
+		<div className="text-font text-5xl">
+			{formatTime(hours, minutes, seconds)}
+		</div>
 	);
 };

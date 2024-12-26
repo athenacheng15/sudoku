@@ -6,15 +6,17 @@ import {
 
 import { create } from "zustand";
 import { getSudoku } from "sudoku-gen";
+import { zipWith } from "lodash";
 
 import { NumStatusEnum } from "@types";
 import { checkDuplicate } from "@utils";
 
 type usePuzzleStore = {
 	numberObj: PuzzleNumberObjType[] | null;
+	error: string | null;
 	solution: string | null;
 	difficulty: string | null;
-	error: string | null;
+	isComplete: boolean;
 	getPuzzle: (level: LevelType) => void;
 	setNumber: (
 		idx: number,
@@ -25,6 +27,9 @@ type usePuzzleStore = {
 	setHighlight: (idx: number) => void;
 	setError: (idxes: number[], isError: boolean) => void;
 	checkError: () => void;
+	checkCompleted: () => void;
+	setToDefault: () => void;
+	setFinished: () => void;
 };
 
 export const usePuzzle = create<usePuzzleStore>((set, get) => ({
@@ -32,6 +37,7 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 	error: null,
 	solution: null,
 	difficulty: null,
+	isComplete: false,
 	getPuzzle: async (level: LevelType) => {
 		try {
 			const response = await getSudoku(level);
@@ -72,6 +78,7 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 		}
 		set({ numberObj: updatedPuzzle });
 		get().checkError();
+		get().checkCompleted();
 	},
 	deleteNumber: (idx: number) => {
 		const current = get().numberObj;
@@ -139,5 +146,34 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 		}
 
 		get().setError(nonDuplicates, false);
+	},
+	checkCompleted: () => {
+		const current = get().numberObj;
+		if (!current) return;
+		const allFilled = current.every((item) => item.num !== "-");
+		const userAnswer = current.map((item) => item.num).join("");
+		const isComplete = allFilled && userAnswer === get().solution;
+		set({ isComplete });
+	},
+	setToDefault: () =>
+		set({
+			numberObj: null,
+			error: null,
+			solution: null,
+			difficulty: null,
+			isComplete: false,
+		}),
+	setFinished: () => {
+		//WARNING : only for dev use
+		const current = get().numberObj;
+		if (!current) return;
+		const solution = get().solution!.split("");
+
+		const updatedPuzzle = zipWith(current, solution, (puzzle, solutionNum) => ({
+			...puzzle,
+			num: solutionNum,
+		}));
+		set({ numberObj: updatedPuzzle });
+		get().checkCompleted();
 	},
 }));

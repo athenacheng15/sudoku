@@ -1,6 +1,7 @@
 import { HiOutlineVariable } from "react-icons/hi";
 import { LuEraser } from "react-icons/lu";
 import { TbReload } from "react-icons/tb";
+import { MdOutlineLightbulb } from "react-icons/md";
 
 import { OperationBtn } from "@components/operation-btn";
 import { usePuzzle } from "@hooks/usePuzzle";
@@ -9,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 export const OperationBtns = () => {
 	const navigate = useNavigate();
-	const { deleteNumber, deleteAllNumber, numberObj } = usePuzzle();
+	const { deleteNumber, deleteAllNumber, numberObj, setFinished } = usePuzzle();
 	const { currentGrid } = useCurrentGrid();
 
 	const handleReturnToHomePage = () => {
@@ -40,6 +41,10 @@ export const OperationBtns = () => {
 		}
 	};
 
+	const handleFill = () => {
+		setFinished();
+	};
+
 	return (
 		<>
 			<div className="mb-8">
@@ -52,6 +57,9 @@ export const OperationBtns = () => {
 			{/* TODO : tooltips */}
 			<OperationBtn icon={HiOutlineVariable} onClick={handleDeleteAllNumber} />
 			<OperationBtn icon={LuEraser} onClick={handleDeleteNumber} />
+
+			{/* WARNING : only for dev use */}
+			{/* <OperationBtn icon={MdOutlineLightbulb} onClick={handleFill} /> */}
 		</>
 	);
 };
