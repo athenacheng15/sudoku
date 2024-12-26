@@ -10,7 +10,7 @@ export const InputPanel = () => {
 	const { checkError } = useCheckError();
 
 	const handleOnClick = (num: number) => {
-		if (!currentGrid) return;
+		if (currentGrid === null || currentGrid === undefined) return;
 		setNumber(currentGrid, { num: num.toString() });
 		checkError();
 	};
