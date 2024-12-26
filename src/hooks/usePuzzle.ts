@@ -1,4 +1,4 @@
-import type {
+import {
 	LevelEnum as LevelType,
 	PuzzleNumberObjType,
 	NumStatusEnum as NumStatusType,
@@ -6,6 +6,7 @@ import type {
 
 import { create } from "zustand";
 import { getSudoku } from "sudoku-gen";
+import { NumStatusEnum } from "@types";
 
 type usePuzzleStore = {
 	numberObj: PuzzleNumberObjType[] | null;
@@ -19,6 +20,8 @@ type usePuzzleStore = {
 	) => void;
 	deleteNumber: (idx: number) => void;
 	deleteAllNumber: (idx: number) => void;
+	setHighlight: (idx: number) => void;
+	setError: (idxes: number[], isError: boolean) => void;
 };
 
 export const usePuzzle = create<usePuzzleStore>((set, get) => ({
@@ -91,5 +94,34 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 			);
 			set({ numberObj: updatedPuzzle });
 		}
+	},
+	setHighlight: (idx: number) => {
+		const current = get().numberObj;
+		if (!current || idx < 0 || idx >= current.length) return;
+
+		const targetNum = current[idx].num;
+
+		if (targetNum !== "-") {
+			const updatedPuzzle = current.map((item) =>
+				item.num === targetNum
+					? { ...item, status: NumStatusEnum.HIGHLIGHT }
+					: { ...item, status: null }
+			);
+			set({ numberObj: updatedPuzzle });
+		}
+	},
+	setError: (idxes: number[], isError: boolean) => {
+		const current = get().numberObj;
+		if (!current) return;
+
+		const updatedPuzzle = current.map((cell, idx) => ({
+			...cell,
+			status: idxes.includes(idx)
+				? isError
+					? NumStatusEnum.ERROR
+					: null
+				: cell.status,
+		}));
+		set({ numberObj: updatedPuzzle });
 	},
 }));
