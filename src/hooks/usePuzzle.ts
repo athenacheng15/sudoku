@@ -6,7 +6,9 @@ import {
 
 import { create } from "zustand";
 import { getSudoku } from "sudoku-gen";
+
 import { NumStatusEnum } from "@types";
+import { addIndexToSet } from "@utils";
 
 type usePuzzleStore = {
 	numberObj: PuzzleNumberObjType[] | null;
@@ -22,6 +24,7 @@ type usePuzzleStore = {
 	deleteAllNumber: (idx: number) => void;
 	setHighlight: (idx: number) => void;
 	setError: (idxes: number[], isError: boolean) => void;
+	checkError: () => void;
 };
 
 export const usePuzzle = create<usePuzzleStore>((set, get) => ({
@@ -68,6 +71,7 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 			updatedPuzzle[idx] = { ...targetGrid, status };
 		}
 		set({ numberObj: updatedPuzzle });
+		get().checkError();
 	},
 	deleteNumber: (idx: number) => {
 		const current = get().numberObj;
@@ -80,6 +84,7 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 
 		updatedPuzzle[idx] = { ...targetGrid, num: "-" };
 		set({ numberObj: updatedPuzzle });
+		get().checkError();
 	},
 	deleteAllNumber: (idx: number) => {
 		const current = get().numberObj;
@@ -91,6 +96,7 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 			item.num === targetNum && !item.isDefault ? { ...item, num: "-" } : item
 		);
 		set({ numberObj: updatedPuzzle });
+		get().checkError();
 	},
 	setHighlight: (idx: number) => {
 		const current = get().numberObj;
@@ -120,5 +126,63 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 				: cell.status,
 		}));
 		set({ numberObj: updatedPuzzle });
+	},
+	checkError: () => {
+		const current = get().numberObj;
+		if (!current) return;
+
+		const rowSets = Array.from(
+			{ length: 9 },
+			() => new Map<string, number[]>()
+		);
+		const colSets = Array.from(
+			{ length: 9 },
+			() => new Map<string, number[]>()
+		);
+		const boxSets = Array.from(
+			{ length: 9 },
+			() => new Map<string, number[]>()
+		);
+		let duplicates = new Set<number>();
+
+		current.forEach((cell, idx) => {
+			const num = cell.num;
+			const rowNum = Math.floor(idx / 9);
+			const colNum = idx % 9;
+			const boxIndex = Math.floor(rowNum / 3) * 3 + Math.floor(colNum / 3);
+
+			if (num !== "-") {
+				if (rowSets[rowNum].has(num)) {
+					rowSets[rowNum].get(num)?.forEach((dupIdx) => duplicates.add(dupIdx));
+					duplicates.add(idx);
+				}
+				addIndexToSet(rowSets[rowNum], num, idx);
+
+				if (colSets[colNum].has(num)) {
+					colSets[colNum].get(num)?.forEach((dupIdx) => duplicates.add(dupIdx));
+					duplicates.add(idx);
+				}
+				addIndexToSet(colSets[colNum], num, idx);
+
+				if (boxSets[boxIndex].has(num)) {
+					boxSets[boxIndex]
+						.get(num)
+						?.forEach((dupIdx) => duplicates.add(dupIdx));
+					duplicates.add(idx);
+				}
+				addIndexToSet(boxSets[boxIndex], num, idx);
+			}
+		});
+
+		if (duplicates.size > 0) {
+			get().setError(Array.from(duplicates), true);
+		}
+
+		// check if not duplicate anymore
+		const nonDuplicates = current
+			.map((_, idx) => idx)
+			.filter((idx) => !duplicates.has(idx));
+
+		get().setError(nonDuplicates, false);
 	},
 }));

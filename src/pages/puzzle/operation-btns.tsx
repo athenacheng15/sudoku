@@ -5,13 +5,11 @@ import { TbReload } from "react-icons/tb";
 import { OperationBtn } from "@components/operation-btn";
 import { usePuzzle } from "@hooks/usePuzzle";
 import { useCurrentGrid } from "@hooks/useCurrentGrid";
-import { useCheckError } from "@hooks/useCheckError";
 import { useNavigate } from "react-router-dom";
 
 export const OperationBtns = () => {
 	const navigate = useNavigate();
 	const { deleteNumber, deleteAllNumber, numberObj } = usePuzzle();
-	const { checkError } = useCheckError();
 	const { currentGrid } = useCurrentGrid();
 
 	const handleReturnToHomePage = () => {
@@ -26,7 +24,6 @@ export const OperationBtns = () => {
 	const handleDeleteNumber = () => {
 		if (!currentGrid) return;
 		deleteNumber(currentGrid);
-		checkError();
 	};
 
 	const handleDeleteAllNumber = () => {
@@ -41,7 +38,6 @@ export const OperationBtns = () => {
 		if (confirmed) {
 			deleteAllNumber(currentGrid);
 		}
-		checkError();
 	};
 
 	return (
