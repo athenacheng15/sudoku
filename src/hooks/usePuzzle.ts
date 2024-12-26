@@ -86,14 +86,11 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 		if (!current || idx < 0 || idx >= current.length) return;
 
 		const targetNum = current[idx].num;
-		const isTargetDefault = current[idx].isDefault;
 
-		if (!isTargetDefault) {
-			const updatedPuzzle = current.map((item) =>
-				item.num === targetNum && !item.isDefault ? { ...item, num: "-" } : item
-			);
-			set({ numberObj: updatedPuzzle });
-		}
+		const updatedPuzzle = current.map((item) =>
+			item.num === targetNum && !item.isDefault ? { ...item, num: "-" } : item
+		);
+		set({ numberObj: updatedPuzzle });
 	},
 	setHighlight: (idx: number) => {
 		const current = get().numberObj;

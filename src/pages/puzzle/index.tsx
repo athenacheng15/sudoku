@@ -27,9 +27,6 @@ export const Sudoku = () => {
 	}
 
 	if (!numberObj) return <Loader />;
-
-	console.log(numberObj);
-
 	return (
 		<div className="flex flex-col items-center justify-center">
 			<div className="mb-10">

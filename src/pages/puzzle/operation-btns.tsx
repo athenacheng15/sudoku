@@ -10,9 +10,18 @@ import { useNavigate } from "react-router-dom";
 
 export const OperationBtns = () => {
 	const navigate = useNavigate();
-	const { deleteNumber, deleteAllNumber } = usePuzzle();
+	const { deleteNumber, deleteAllNumber, numberObj } = usePuzzle();
 	const { checkError } = useCheckError();
 	const { currentGrid } = useCurrentGrid();
+
+	const handleReturnToHomePage = () => {
+		let confirmed = window.confirm(
+			"Are you sure you want to return to the home page?\n(Your current progress will be lost)"
+		);
+		if (confirmed) {
+			navigate("/");
+		}
+	};
 
 	const handleDeleteNumber = () => {
 		if (!currentGrid) return;
@@ -21,8 +30,17 @@ export const OperationBtns = () => {
 	};
 
 	const handleDeleteAllNumber = () => {
-		if (!currentGrid) return;
-		deleteAllNumber(currentGrid);
+		if (!currentGrid || !numberObj) return;
+		const gridNum = numberObj[currentGrid];
+
+		if (gridNum.num === "-") return;
+
+		let confirmed = window.confirm(
+			`Are you sure you want to remove all entered numbers ${gridNum.num}?`
+		);
+		if (confirmed) {
+			deleteAllNumber(currentGrid);
+		}
 		checkError();
 	};
 
@@ -32,7 +50,7 @@ export const OperationBtns = () => {
 				<OperationBtn
 					isHighlight
 					icon={TbReload}
-					onClick={() => navigate("/")}
+					onClick={handleReturnToHomePage}
 				/>
 			</div>
 			{/* TODO : tooltips */}
