@@ -46,12 +46,10 @@ export const Sudoku = () => {
 				{/* TODO: timer hidden choice */}
 				<Timer hours={hours} minutes={minutes} seconds={seconds} />
 			</div>
-			<div className="mb-6">
-				<div className="relative">
-					<QuizPuzzle />
-					<div className="absolute top-24 right-[-120px] flex flex-col space-y-1">
-						<OperationBtns />
-					</div>
+			<div className="mb-6 relative">
+				<QuizPuzzle />
+				<div className="absolute top-14 right-[-120px] flex flex-col space-y-1">
+					<OperationBtns />
 				</div>
 			</div>
 			<hr className="w-full border border-theme" />

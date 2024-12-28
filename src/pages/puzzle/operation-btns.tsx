@@ -1,16 +1,19 @@
+import { useNavigate } from "react-router-dom";
 import { HiOutlineVariable } from "react-icons/hi";
 import { LuEraser } from "react-icons/lu";
 import { TbReload } from "react-icons/tb";
+import { FiHome } from "react-icons/fi";
 import { MdOutlineLightbulb } from "react-icons/md";
 
 import { OperationBtn } from "@components/operation-btn";
+import { Tooltip } from "@src/components/tooltip";
 import { usePuzzle } from "@hooks/usePuzzle";
 import { useCurrentGrid } from "@hooks/useCurrentGrid";
-import { useNavigate } from "react-router-dom";
 
 export const OperationBtns = () => {
 	const navigate = useNavigate();
-	const { deleteNumber, deleteAllNumber, numberObj, setFinished } = usePuzzle();
+	const { numberObj, deleteNumber, deleteAllNumber, setRestart, setFinished } =
+		usePuzzle();
 	const { currentGrid } = useCurrentGrid();
 
 	const handleReturnToHomePage = () => {
@@ -19,6 +22,15 @@ export const OperationBtns = () => {
 		);
 		if (confirmed) {
 			navigate("/");
+		}
+	};
+
+	const handleReStart = () => {
+		let confirmed = window.confirm(
+			"Are you sure you want to restart?\n(Timer won't be reset)"
+		);
+		if (confirmed) {
+			setRestart();
 		}
 	};
 
@@ -46,20 +58,33 @@ export const OperationBtns = () => {
 	};
 
 	return (
-		<>
-			<div className="mb-8">
-				<OperationBtn
-					isHighlight
-					icon={TbReload}
-					onClick={handleReturnToHomePage}
-				/>
+		<div>
+			<div className="mb-6">
+				<Tooltip content="Home">
+					<OperationBtn
+						isHighlight
+						icon={FiHome}
+						onClick={handleReturnToHomePage}
+					/>
+				</Tooltip>
 			</div>
-			{/* TODO : tooltips */}
-			<OperationBtn icon={HiOutlineVariable} onClick={handleDeleteAllNumber} />
-			<OperationBtn icon={LuEraser} onClick={handleDeleteNumber} />
+			<div className="mb-6 space-y-1">
+				<Tooltip content="Restart">
+					<OperationBtn icon={TbReload} onClick={handleReStart} />
+				</Tooltip>
+				<Tooltip content="Clear All Matched">
+					<OperationBtn
+						icon={HiOutlineVariable}
+						onClick={handleDeleteAllNumber}
+					/>
+				</Tooltip>
+			</div>
+			<Tooltip content="Clear">
+				<OperationBtn icon={LuEraser} onClick={handleDeleteNumber} />
+			</Tooltip>
 
 			{/* WARNING : only for dev use */}
 			{/* <OperationBtn icon={MdOutlineLightbulb} onClick={handleFill} /> */}
-		</>
+		</div>
 	);
 };
