@@ -1,15 +1,11 @@
-import type { NumStatusEnum as NumStatusType } from "@src/types";
-
 import { cn } from "@src/utils";
-
-import { NumStatusEnum } from "@src/types";
-
 
 interface GridProps {
 	n: string;
-	isDefault: boolean;
 	isSelected: boolean;
-	status: NumStatusType | null;
+	isDefault: boolean;
+	isError: boolean;
+	isHighlight: boolean;
 	onClick: () => void;
 }
 
@@ -17,17 +13,22 @@ export function Grid({
 	n = "-",
 	isDefault,
 	isSelected,
-	status,
+	isError,
+	isHighlight,
 	onClick,
 }: GridProps) {
+	const getNumberDisplayed = () => {
+		if (isError) return "text-[#DB372F]";
+		if (isHighlight) return "text-[#D79326]";
+		if (isDefault) return "text-font-dark";
+		return "text-[#8B7757]";
+	};
 	return (
 		<button
 			className={`${cn(
-				"w-10 h-10 rounded bg-theme-light text-xl text-[#8B7757] transition",
-				isDefault && "text-font-dark",
+				"w-10 h-10 rounded bg-theme-light text-xltransition",
 				isSelected && "bg-[#DFC6A2]",
-				status === NumStatusEnum.HIGHLIGHT && "text-[#D79326]",
-				status === NumStatusEnum.ERROR && "text-[#DB372F]"
+				getNumberDisplayed()
 			)}`}
 			onClick={onClick}
 		>

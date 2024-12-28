@@ -18,7 +18,7 @@ export const QuizPuzzle = () => {
 
 	return (
 		<div className="grid grid-cols-9">
-			{numberObj.map(({ num, isDefault, status }, idx) => {
+			{numberObj.map(({ num, isDefault, isError, isHighlight }, idx) => {
 				const row = Math.floor(idx / 9) + 1;
 				const column = (idx + 1) % 9;
 				return (
@@ -38,7 +38,8 @@ export const QuizPuzzle = () => {
 								onClick={() => {
 									handleOnClickGrid(idx);
 								}}
-								status={status}
+								isError={isError}
+								isHighlight={isHighlight}
 							/>
 						</div>
 					</div>
