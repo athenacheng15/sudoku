@@ -20,6 +20,7 @@ type usePuzzleStore = {
 	toggleError: (idxes: number[], shouldSetError: boolean) => void;
 	checkError: () => void;
 	checkCompleted: () => void;
+	setRestart: () => void;
 	setToDefault: () => void;
 	setFinished: () => void;
 };
@@ -142,6 +143,17 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 		const userAnswer = current.map((item) => item.num).join("");
 		const isComplete = allFilled && userAnswer === get().solution;
 		set({ isComplete });
+	},
+	setRestart: () => {
+		const current = get().numberObj;
+		if (!current) return;
+		const updatedPuzzle = current.map(({ num, isDefault }) => ({
+			num: isDefault ? num : "-",
+			isDefault,
+			isError: false,
+			isHighlight: false,
+		}));
+		set({ numberObj: updatedPuzzle });
 	},
 	setToDefault: () =>
 		set({
