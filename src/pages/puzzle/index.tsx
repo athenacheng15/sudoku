@@ -2,6 +2,7 @@ import type { LevelEnum as LevelType } from "@types";
 
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { LuEye, LuEyeOff } from "react-icons/lu";
 
 import { Timer } from "@components/timer";
 import { Loader } from "@components/loader";
@@ -13,7 +14,6 @@ import { OperationBtns } from "./operation-btns";
 
 export const Sudoku = () => {
 	const { difficulty } = useParams();
-
 	const { numberObj, error, isComplete, getPuzzle } = usePuzzle();
 
 	useEffect(() => {
@@ -29,8 +29,7 @@ export const Sudoku = () => {
 
 	return (
 		<div className="flex flex-col items-center justify-center">
-			<div className="mb-10">
-				{/* TODO: timer hidden choice */}
+			<div className="mb-8">
 				<Timer isComplete={isComplete} />
 			</div>
 			<div className="mb-6 relative">
