@@ -2,17 +2,20 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { FaCrown } from "react-icons/fa";
 
 import { DataBlock } from "@components/data-block";
-import { usePuzzle } from "@src/hooks/usePuzzle";
+import { usePuzzle } from "@hooks/usePuzzle";
+import { useCurrentGrid } from "@hooks/useCurrentGrid";
 
 export const Completed = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
 	const { setToDefault } = usePuzzle();
+	const { setCurrentGrid } = useCurrentGrid();
 	const { difficulty, time } = location.state;
 
 	const handleOnclick = () => {
 		setToDefault();
+		setCurrentGrid(null);
 		navigate("/");
 	};
 
