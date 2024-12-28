@@ -1,14 +1,9 @@
-import {
-	LevelEnum as LevelType,
-	PuzzleNumberObjType,
-	NumStatusEnum as NumStatusType,
-} from "@types";
+import { LevelEnum as LevelType, PuzzleNumberObjType } from "@types";
 
 import { create } from "zustand";
 import { getSudoku } from "sudoku-gen";
 import { zipWith } from "lodash";
 
-import { NumStatusEnum } from "@types";
 import { checkDuplicate } from "@utils";
 
 type usePuzzleStore = {
@@ -18,14 +13,11 @@ type usePuzzleStore = {
 	difficulty: string | null;
 	isComplete: boolean;
 	getPuzzle: (level: LevelType) => void;
-	setNumber: (
-		idx: number,
-		update: { num?: string; status?: NumStatusType }
-	) => void;
+	setNumber: (idx: number, update: { num?: string }) => void;
 	deleteNumber: (idx: number) => void;
 	deleteAllNumber: (idx: number) => void;
 	setHighlight: (idx: number) => void;
-	setError: (idxes: number[], isError: boolean) => void;
+	toggleError: (idxes: number[], shouldSetError: boolean) => void;
 	checkError: () => void;
 	checkCompleted: () => void;
 	setToDefault: () => void;
@@ -45,7 +37,8 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 			const formattedPuzzle: PuzzleNumberObjType[] = numArray.map((num) => ({
 				num,
 				isDefault: num !== "-",
-				status: null,
+				isError: false,
+				isHighlight: false,
 			}));
 			set({
 				numberObj: formattedPuzzle,
@@ -63,19 +56,18 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 			});
 		}
 	},
-	setNumber: (idx: number, { num, status }) => {
+	setNumber: (idx: number, { num }) => {
 		const current = get().numberObj;
 		if (!current || idx < 0 || idx >= current.length) return;
 
 		const updatedPuzzle = current;
 		const targetGrid = updatedPuzzle[idx];
+		if (targetGrid.isDefault) return;
 
 		if (num) {
 			updatedPuzzle[idx] = { ...targetGrid, num };
 		}
-		if (status) {
-			updatedPuzzle[idx] = { ...targetGrid, status };
-		}
+
 		set({ numberObj: updatedPuzzle });
 		get().checkError();
 		get().checkCompleted();
@@ -115,23 +107,19 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 			// TODO fix error status
 			const updatedPuzzle = current.map((item) =>
 				item.num === targetNum
-					? { ...item, status: NumStatusEnum.HIGHLIGHT }
-					: { ...item, status: null }
+					? { ...item, isHighlight: true }
+					: { ...item, isHighlight: false }
 			);
 			set({ numberObj: updatedPuzzle });
 		}
 	},
-	setError: (idxes: number[], isError: boolean) => {
+	toggleError: (idxes: number[], shouldSetError: boolean) => {
 		const current = get().numberObj;
 		if (!current) return;
 
 		const updatedPuzzle = current.map((cell, idx) => ({
 			...cell,
-			status: idxes.includes(idx)
-				? isError
-					? NumStatusEnum.ERROR
-					: null
-				: cell.status,
+			isError: shouldSetError ? idxes.includes(idx) : !idxes.includes(idx),
 		}));
 		set({ numberObj: updatedPuzzle });
 	},
@@ -142,10 +130,10 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 		const { duplicates, nonDuplicates } = checkDuplicate(current);
 
 		if (duplicates.size > 0) {
-			get().setError(Array.from(duplicates), true);
+			get().toggleError(Array.from(duplicates), true);
 		}
 
-		get().setError(nonDuplicates, false);
+		get().toggleError(nonDuplicates, false);
 	},
 	checkCompleted: () => {
 		const current = get().numberObj;

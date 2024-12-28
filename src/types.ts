@@ -5,11 +5,6 @@ export enum LevelEnum {
 	EXPERT = "expert",
 }
 
-export enum NumStatusEnum {
-	HIGHLIGHT = "highlight",
-	ERROR = "error",
-}
-
 export interface PuzzleGenResType {
 	puzzle: string;
 	solution: string;
@@ -19,7 +14,8 @@ export interface PuzzleGenResType {
 export interface PuzzleNumberObjType {
 	num: string;
 	isDefault: boolean;
-	status: NumStatusEnum | null;
+	isError: boolean;
+	isHighlight: boolean;
 }
 
 export interface PuzzleFormattedType {
