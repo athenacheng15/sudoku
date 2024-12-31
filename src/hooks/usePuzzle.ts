@@ -17,6 +17,7 @@ type usePuzzleStore = {
 	deleteNumber: (idx: number) => void;
 	deleteAllNumber: (idx: number) => void;
 	setHighlight: (idx: number) => void;
+	removeHighlight: () => void;
 	toggleError: (idxes: number[], shouldSetError: boolean) => void;
 	checkError: () => void;
 	checkCompleted: () => void;
@@ -105,14 +106,24 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 		const targetNum = current[idx].num;
 
 		if (targetNum !== "-") {
-			// TODO fix error status
 			const updatedPuzzle = current.map((item) =>
 				item.num === targetNum
 					? { ...item, isHighlight: true }
 					: { ...item, isHighlight: false }
 			);
 			set({ numberObj: updatedPuzzle });
+		} else {
+			get().removeHighlight();
 		}
+	},
+	removeHighlight: () => {
+		const current = get().numberObj;
+		if (!current) return;
+		const updatedPuzzle = current.map((item) => ({
+			...item,
+			isHighlight: false,
+		}));
+		set({ numberObj: updatedPuzzle });
 	},
 	toggleError: (idxes: number[], shouldSetError: boolean) => {
 		const current = get().numberObj;
