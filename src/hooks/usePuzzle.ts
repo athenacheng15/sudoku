@@ -104,8 +104,13 @@ export const usePuzzle = create<usePuzzleStore>((set, get) => ({
 
 		const targetNum = current[idx].num;
 
-		if (targetNum !== "-") {
-			// TODO fix error status
+		if (targetNum === "-") {
+			const updatedPuzzle = current.map((item) => ({
+				...item,
+				isHighlight: false,
+			}));
+			set({ numberObj: updatedPuzzle });
+		} else {
 			const updatedPuzzle = current.map((item) =>
 				item.num === targetNum
 					? { ...item, isHighlight: true }

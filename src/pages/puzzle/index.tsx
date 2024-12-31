@@ -2,7 +2,6 @@ import type { LevelEnum as LevelType } from "@types";
 
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { LuEye, LuEyeOff } from "react-icons/lu";
 
 import { Timer } from "@components/timer";
 import { Loader } from "@components/loader";
