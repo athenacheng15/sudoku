@@ -1,20 +1,19 @@
 import { Grid } from "@components/grid";
+import { usePuzzle } from "@hooks/usePuzzle";
+import { useCurrentGrid } from "@hooks/useCurrentGrid";
 import { cn } from "@utils";
-
-import { usePuzzle } from "@src/hooks/usePuzzle";
-import { useCurrentGrid } from "@src/hooks/useCurrentGrid";
 
 export const QuizPuzzle = () => {
 	// TODO: add Id to pervent double fetch
 	const { numberObj, setHighlight } = usePuzzle();
 	const { currentGrid, setCurrentGrid } = useCurrentGrid();
 
-	if (!numberObj) return null;
-
 	const handleOnClickGrid = (idx: number) => {
 		setCurrentGrid(idx);
 		setHighlight(idx);
 	};
+
+	if (!numberObj) return null;
 
 	return (
 		<div className="grid grid-cols-9">
@@ -48,3 +47,9 @@ export const QuizPuzzle = () => {
 		</div>
 	);
 };
+function useOnClickOutside<T>(arg0: {
+	ref: import("react").RefObject<HTMLDivElement>;
+	handler: (event: MouseEvent | TouchEvent) => void;
+}) {
+	throw new Error("Function not implemented.");
+}
