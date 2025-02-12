@@ -34,7 +34,8 @@
 
 
 ## 📖 Libraries
-*  [SudokuGen](https://www.npmjs.com/package/sudoku-gen) : to generate random Sudoku puzzles of varying difficulty levels.
+* [SudokuGen](https://www.npmjs.com/package/sudoku-gen) : to generate random Sudoku puzzles of varying difficulty levels.
+* [CRACO](https://craco.js.org/): Managing TypeScript path aliases defined in tsconfig.json, streamlining imports in CRA setup. 
 
 
 ## 🔮 Contributing
