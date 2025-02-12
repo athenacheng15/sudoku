@@ -12,7 +12,7 @@ export const Home = () => {
 	const levels = Object.values(LevelEnum);
 	return (
 		<div className="flex flex-col items-center justify-center">
-			<p className="text-font-dark text-7xl">SODOKU</p>
+			<p className="text-font-dark text-7xl">SUDOKU</p>
 			<div className="flex flex-col items-center justify-center space-y-4 my-10">
 				{levels.map((level) => (
 					<DifficultyBtn
