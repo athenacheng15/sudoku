@@ -11,6 +11,8 @@
     <br/>
     <a href="https://sudoku-yu.vercel.app/">View Website</a>
     .
+    <a href="https://www.youtube.com/watch?v=BHV4em4G4wY">Video Demo</a>
+    .
     <a href="https://github.com/athenacheng15/sudoku/issues">Report Bug</a>
     .
     <a href="https://github.com/athenacheng15/sudoku/issues">Request Feature</a>
