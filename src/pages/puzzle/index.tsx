@@ -55,14 +55,19 @@ export const Sudoku = () => {
 				</div>
 				<div
 					ref={operationBtnsRef}
-					className="absolute top-14 right-[-120px] flex flex-col space-y-1"
+					className="hidden absolute top-14 right-[-120px] sm:flex flex-col space-y-1"
 				>
 					<OperationBtns />
 				</div>
 			</div>
 			<hr className="w-full border border-theme" />
 			<div ref={InputPanelRef} className="mt-6">
-				<InputPanel />
+				<div className="flex justify-center items-center">
+					<InputPanel />
+				</div>
+				<div className="flex sm:hidden mt-6">
+					<OperationBtns />
+				</div>
 			</div>
 		</div>
 	);
