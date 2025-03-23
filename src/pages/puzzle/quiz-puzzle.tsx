@@ -28,7 +28,7 @@ export const QuizPuzzle = () => {
 							(row === 3 || row === 6) && "border-b border-theme"
 						)}
 					>
-						<div className="flex items-center justify-center w-11 h-11 text-xl">
+						<div className="flex items-center justify-center w-9 h-9 xs:w-11 xs:h-11 text-xl">
 							{/* TODO : click outside */}
 							<Grid
 								n={num}

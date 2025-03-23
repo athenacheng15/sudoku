@@ -19,6 +19,9 @@ module.exports = {
 					alert: "#DB372F",
 				},
 			},
+			screens: {
+				xs: "480px",
+			},
 		},
 	},
 	plugins: [],
