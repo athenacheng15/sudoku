@@ -14,7 +14,7 @@ export const OperationBtn = ({
 	return (
 		<button
 			className={cn(
-				"flex items-center justify-center size-14 text-2xl rounded-lg bg-[#F1E1CC] text-font hover:bg-[#DECBB1] transition",
+				"flex items-center justify-center size-12 sm:size-14 text-2xl rounded-lg bg-[#F1E1CC] text-font hover:bg-[#DECBB1] transition",
 				isHighlight && "bg-[#A28C69] text-white hover:bg-[#7D6846]"
 			)}
 			onClick={onClick}

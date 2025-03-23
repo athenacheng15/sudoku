@@ -3,6 +3,8 @@ import { HiOutlineVariable } from "react-icons/hi";
 import { LuEraser } from "react-icons/lu";
 import { TbReload } from "react-icons/tb";
 import { FiHome } from "react-icons/fi";
+
+//only for dev use
 import { MdOutlineLightbulb } from "react-icons/md";
 
 import { OperationBtn } from "@components/operation-btn";
@@ -53,13 +55,14 @@ export const OperationBtns = () => {
 		}
 	};
 
+	//only for dev use
 	const handleFill = () => {
 		setFinished();
 	};
 
 	return (
-		<div>
-			<div className="mb-6">
+		<div className="flex flex-row sm:flex-col justify-center items-center w-full gap-4 sm:gap-6">
+			<div className="">
 				<Tooltip content="Home">
 					<OperationBtn
 						isHighlight
@@ -68,7 +71,7 @@ export const OperationBtns = () => {
 					/>
 				</Tooltip>
 			</div>
-			<div className="mb-6 space-y-1">
+			<div className="flex flex-row sm:flex-col gap-1 justify-center items-center">
 				<Tooltip content="Restart">
 					<OperationBtn icon={TbReload} onClick={handleReStart} />
 				</Tooltip>

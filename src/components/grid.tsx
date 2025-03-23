@@ -26,7 +26,7 @@ export function Grid({
 	return (
 		<button
 			className={`${cn(
-				"w-10 h-10 rounded bg-theme-light text-xltransition",
+				"w-8 h-8 xs:w-10 xs:h-10 rounded bg-theme-light text-xltransition",
 				isSelected && "bg-[#DFC6A2]",
 				getNumberDisplayed()
 			)}`}
