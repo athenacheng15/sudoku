@@ -23,9 +23,9 @@ export const Completed = () => {
 		<>
 			<div className="text-font-dark flex flex-col items-center mb-10 space-y-8">
 				<FaCrown size={64} />
-				<p className="text-7xl ">COMPLETED</p>
+				<p className="text-5xl sm:text-7xl ">COMPLETED</p>
 			</div>
-			<div className="flex space-x-4">
+			<div className="flex flex-wrap gap-4 justify-center items-center">
 				<DataBlock title="TIME" content={time} />
 				<DataBlock title="LEVEL" content={difficulty.toUpperCase()} />
 			</div>
