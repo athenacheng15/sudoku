@@ -8,6 +8,7 @@ import { Loader } from "@components/loader";
 import { usePuzzle } from "@hooks/usePuzzle";
 import { useCurrentGrid } from "@hooks/useCurrentGrid";
 import { useClickOutside } from "@hooks/useClickOutside";
+import { useWindowEvents } from "@hooks/useWindowEvents";
 
 import { QuizPuzzle } from "./quiz-puzzle";
 import { InputPanel } from "./input-panel";
@@ -37,6 +38,8 @@ export const Sudoku = () => {
 		handler: handleClickOutside,
 		excludeRefs: [InputPanelRef, operationBtnsRef],
 	});
+
+	useWindowEvents();
 
 	if (error) {
 		return <div>{error}</div>;
